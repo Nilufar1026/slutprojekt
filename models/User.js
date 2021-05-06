@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 const jwt = require('jsonwebtoken')
 const bcryptjs = require('bcryptjs')
 const db = require('../database/connection')
-// const { InvalidCredentials, TokenExpired, Unauthorized } = require('../errors')
+const { InvalidCredentials, TokenExpired, Unauthorized } = require('../errors')
 
 const User = db.define('Users', {
     name: {
