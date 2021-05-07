@@ -21,7 +21,7 @@ module.exports={
         }catch(error){next(error)}    
     },
 
-    async updateByUserId(req,res,next){
+    async updateUserById(req,res,next){
         try{
             const {id}=req.params
             const {email,name,password,role} = req.body
