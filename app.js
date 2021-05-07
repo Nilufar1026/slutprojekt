@@ -10,9 +10,11 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
-app.use(adminRoutes)
 
 app.use(generalRoutes)
+app.use(adminRoutes)
+
+
 
 app.listen(PORT, () => {
     console.log(`Server on port: ${PORT}`);

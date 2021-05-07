@@ -1,4 +1,4 @@
-const {InvalidBody,userNotFound}=require('../errors/index')
+const {InvalidBody,UserNotFound}=require('../errors/index')
 const User=require('../models/User')
 const Task=require('../models/Tasks')
 
@@ -30,13 +30,13 @@ module.exports={
             if(name) field.name=name
             if(password) field.password=password
             if(role) field.role=role
-            
+    
             const getUser = await User.findOne({where:{id}})
-            if(!getUser){ throw new userNotFound(id) }
-            if(getUser.UserId != req.user.id){ throw new unauthorized() }
+            if(!getUser){ throw new UserNotFound(id) }
+            //if(getUser.id != req.user.id){ throw new Unauthorized() }
             
             await User.update(field,{where:{id}})
-            res.json({message:` ${User.role} has updated!`})
+            res.json({message:'user has updated!'})
         }catch(error){next(error)}
     },
 
@@ -44,11 +44,8 @@ module.exports={
         try{
             const {id}=req.params
             const getUser = await User.findOne({where:{id}})
-            if(getUser.UserId != req.user.id){ 
-                throw new unauthorized()
-            }
             await getUser.destroy()
-            res.json({message:` ${User.name} has deleted!`})
+            res.json({message: 'user has deleted!' })
         }catch(error){next(error)}
     },
 

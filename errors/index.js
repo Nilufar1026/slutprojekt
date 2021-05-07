@@ -43,6 +43,15 @@ class MessageNotFound extends AppError{
   }
 }
 
+class UserNotFound extends AppError{
+    constructor(id){
+      super()
+      this.message = `User with id ${id} not found`
+      this.errorCode = 401
+    }
+  
+}
+
 module.exports = {
   AppError,
   InvalidBody,
@@ -50,5 +59,6 @@ module.exports = {
   Unauthorized,
   TokenExpired,
   MessageNotFound,
-  Forbidden
+  Forbidden,
+  UserNotFound
 }
