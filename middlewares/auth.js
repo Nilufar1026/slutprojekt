@@ -24,4 +24,15 @@ module.exports = {
     req.user = user
     next()
   },
+
+  
+  worker: (req, res, next) => {
+    const token = extractToken(req.headers)
+    const user = User.validateToken(token)
+    if (user.role !== 'worker') { throw new Forbidden() }
+    req.user = user
+    next()
+  },
+
+
 }

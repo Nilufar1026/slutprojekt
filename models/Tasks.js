@@ -13,10 +13,12 @@ const Tasks = db.define('Tasks', {
         type: DataTypes.STRING,
         defaultValue:""
     }
+
+
 })
 
-User.hasMany ( Tasks )
-Tasks.belongsTo ( User )
-
+// User.hasMany ( Tasks )  
+Tasks.belongsTo ( User )  
+Tasks.belongsTo(User, { as: 'client', constraints: false })
 
 module.exports = Tasks
