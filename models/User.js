@@ -54,4 +54,12 @@ User.validateToken = (token) => {
     }
 }
 
+User.uppdateProfile = (email) => {
+    try {
+
+    } catch(error){
+        
+    }
+}
+
 module.exports = User
