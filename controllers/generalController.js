@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const { InvalidBody, Unauthorized } = require('../errors/index')
+const { InvalidBody, Unauthorized, UserNotFound } = require('../errors/index')
 const { Op } = require('sequelize')
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
         const name = req.query.name
         try {
             const users = await User.findAll({
-                attributes: { exclude: ['password'] }, where: {
+                attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }, where: {
                     name: {
                         [Op.substring]: name
                     }
@@ -47,4 +47,20 @@ module.exports = {
         } catch (error) { next(error) }
     },
 
+    async getUserById(req, res, next) {
+        try {
+            const { id } = req.params
+            console.log(id);
+            const user = await User.findOne({
+                attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }, where: {
+                    id: {
+                        [Op.eq]: id
+                    }
+                }
+            })
+            if (!user) { throw new UserNotFound() }
+            res.json({ user })
+        } catch (error) { next(error) }
+
+    },
 }
