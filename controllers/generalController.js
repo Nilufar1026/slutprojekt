@@ -21,11 +21,11 @@ module.exports = {
     async update( req, res, next){
         const email = res.user.email
         try {
-            const { newPassword } = req.body
-            if(!email || !newPassword) {
+            const { newEmail, newName, newPassword } = req.body
+            if(!email || !newEmail || !newName || !newPassword) {
                 throw new InvalidBody()
             }
-            const newProfile = await User.updateProfile(email, newPassword)
+            const newProfile = await User.updateProfile(email, newEmail, newName, newPassword)
             res.json({newProfile, msn: "Your profile was updated successfully"})
         } catch(error) {next(error)}   
     }

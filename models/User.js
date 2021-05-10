@@ -54,15 +54,17 @@ User.validateToken = (token) => {
     }
 }
 
-User.updateProfile = async (email, newPassword) => {
-        const user = await User.findOne({ where: { email } })
-        if (!user) { throw new InvalidCredentials() }
-        else {
-            const newPassHash = bcryptjs.hashSync(newPassword, 10)
-            const newPass = await User.findOne({ where: { email } })
-            newPass.password = newPassHash
-            await newPass.save()
-        }
-    } 
-        
+User.updateProfile = async (email, newEmail, newName, newPassword) => {
+    const user = await User.findOne({ where: { email } })
+    if (!user) { throw new InvalidCredentials() }
+    else {
+        const newPassHash = bcryptjs.hashSync(newPassword, 10)
+        const newProfile = await User.findOne({ where: { email } })
+        newProfile.password = newPassHash
+        newProfile.email = newEmail
+        newProfile.name = newName
+        await newProfile.save()
+    }
+}
+
 module.exports = User
