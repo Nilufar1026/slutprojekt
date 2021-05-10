@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const { InvalidBody } = require('../errors/index')
+const { InvalidBody, Unauthorized } = require('../errors/index')
 
 module.exports = {
     async login(req, res, next) {
@@ -14,19 +14,29 @@ module.exports = {
     async me(req, res, next) {
         const email = res.user.email
         const user = await User.findOne({ where: { email } })
-        const name = user.name  
-        res.json({ "email": email, "name": name})
-    },  
+        const name = user.name
+        res.json({ "email": email, "name": name })
+    },
 
-    async update( req, res, next){
+    async update(req, res, next) {
         const email = res.user.email
         try {
             const { newEmail, newName, newPassword } = req.body
-            if(!email || !newEmail || !newName || !newPassword) {
+            if (!email || !newEmail || !newName || !newPassword) {
                 throw new InvalidBody()
             }
             const newProfile = await User.updateProfile(email, newEmail, newName, newPassword)
-            res.json({newProfile, msn: "Your profile was updated successfully"})
-        } catch(error) {next(error)}   
-    }
+            res.json({ newProfile, msn: "Your profile was updated successfully" })
+        } catch (error) { next(error) }
+    },
+
+    async getAllUser(req, res, next) {
+        const user = res.user
+        try {
+            const users = await User.findAll({ attributes: { exclude: ['password'] } })
+            if(user.role == 'client'){ throw new Unauthorized()}
+            res.json({ users })
+        } catch (error) { next(error) }
+    },
+
 }
