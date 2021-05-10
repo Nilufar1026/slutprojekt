@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const { InvalidBody, Unauthorized } = require('../errors/index')
+const { Op } = require('sequelize')
 
 module.exports = {
     async login(req, res, next) {
@@ -32,9 +33,16 @@ module.exports = {
 
     async getAllUser(req, res, next) {
         const user = res.user
+        const name = req.query.name
         try {
-            const users = await User.findAll({ attributes: { exclude: ['password'] } })
-            if(user.role == 'client'){ throw new Unauthorized()}
+            const users = await User.findAll({
+                attributes: { exclude: ['password'] }, where: {
+                    name: {
+                        [Op.substring]: name
+                    }
+                }
+            })
+            if (user.role == 'client') { throw new Unauthorized() }
             res.json({ users })
         } catch (error) { next(error) }
     },
