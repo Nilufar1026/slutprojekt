@@ -33,7 +33,6 @@ module.exports={
     
             const getUser = await User.findOne({where:{id}})
             if(!getUser){ throw new UserNotFound(id) }
-            //if(getUser.id != req.user.id){ throw new Unauthorized() }
             
             await User.update(field,{where:{id}})
             res.json({message:'user has updated!'})
