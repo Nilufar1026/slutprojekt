@@ -49,7 +49,14 @@ class UserNotFound extends AppError{
       this.message = `User with id ${id} not found`
       this.errorCode = 401
     }
-  
+}
+
+class taskNotFound extends AppError{
+  constructor(){
+    super()
+    this.message = `Image not found `
+    this.errorCode = 402
+  }
 }
 
 module.exports = {
@@ -60,5 +67,6 @@ module.exports = {
   TokenExpired,
   MessageNotFound,
   Forbidden,
-  UserNotFound
+  UserNotFound,
+  taskNotFound
 }
