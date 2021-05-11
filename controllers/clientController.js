@@ -4,10 +4,12 @@ const Task = require("../models/Tasks")
 module.export = {
     async getClient(req, res, next){
         try{
-
-        } catch{
-
+            const clientid = req.user.id
+            const clientTask = await Task.findAll({where:{clientid}})
+            res.json({"tasks": clientTask})
         }
+
+        catch(error) {next(error)}
     },
 
     async newMessage(req, res, next){
@@ -22,7 +24,7 @@ module.export = {
         try{
 
         } catch{
-            
+
         }
     }
 }
