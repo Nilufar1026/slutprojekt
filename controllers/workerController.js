@@ -22,25 +22,25 @@ module.exports={
         try{
             const {id}=req.params
             const file=req.files.pictures
-            
+
 
             console.log(file)
             if( !file ){
                 throw new InvalidBody(['file'])
             }
-           
+
 
             const findTask = await Task.findOne({where:{id}})
             if(!findTask){ throw new taskNotFound(id) }
-            
+
             // give unic name for the file.
             const extension=path.extname(file.name)
             const newFileName=uuid()+extension
 
             const outputPath=path.join("upload_images",newFileName)
-         
 
-             file.mv(outputPath,  (err) => {
+
+             file.mv(outputPath, (err) => {
                 if (err) return res.status(500).send(err)
                 Task.update(
                     {imageName:newFileName},

@@ -2,7 +2,7 @@ const User = require("../models/User")
 const Task = require("../models/Tasks")
 
 module.export = {
-    async getClient(req, res, next){
+    async getMessage(req, res, next){
         try{
             const clientid = req.user.id
             const clientTask = await Task.findAll({where:{clientid}})
