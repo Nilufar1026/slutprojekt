@@ -7,7 +7,7 @@ const Auth=require('../middlewares/auth')
 
 router.post('/tasks',Auth.worker,workerController.create) //Skapar ett nytt ärende
 
-// router.post('/tasks/:id/image',Auth.worker,workerController.addImage) //Laddar upp en bild på ärendet
+router.post('/tasks/:id/image',Auth.worker,workerController.addImage) //Laddar upp en bild på ärendet
 
 // router.get('/tasks',Auth.worker,workerController.getTaskByClientName) 
 //Hämtar arbetarens ärenden.
