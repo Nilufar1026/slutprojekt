@@ -52,11 +52,8 @@ module.exports={
         try{
             const {id}=req.params
             const task = await Task.findOne({where:{id}})
-            if(task.Id != req.user.id){ 
-                throw new unauthorized()
-            }
             await task.destroy()
-            res.json({message:` ${task.taskName} has deleted!`})
+            res.json({message:` task id:${task.id} has deleted!`})
         }catch(error){next(error)}
     },
 
