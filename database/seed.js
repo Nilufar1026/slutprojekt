@@ -2,6 +2,8 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 require('dotenv').config()
 
+const Task = require('../models/Tasks')
+
 const admin1 = process.env.ADMIN1
 const newAdminPass1 = bcrypt.hashSync(admin1, 10)
 
@@ -28,3 +30,6 @@ User.create({email:'worker1@email.com', name: 'worker 1', password:newWorkerPass
 User.create({email:'worker2@email.com', name: 'worker 2', password:newWorkerPass2, role: 'worker'})
 User.create({email:'client1@email.com', name: 'client 1', password:newClientPass1, role: 'client'})
 User.create({email:'client2@email.com', name: 'client 2', password:newClientPass2, role: 'client'})
+
+
+
