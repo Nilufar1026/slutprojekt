@@ -14,7 +14,6 @@ app.use(express.json())
 app.use(generalRoutes)
 app.use(adminRoutes)
 app.use(clientRoutes)
-
 app.use(workerRoutes)
 
 

@@ -18,6 +18,7 @@ const Tasks = db.define('Tasks', {
 })
 
 
+
 Tasks.belongsTo ( User )  
 Tasks.belongsTo(User, { as: 'client', constraints: false })
 
