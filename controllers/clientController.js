@@ -12,5 +12,9 @@ module.exports = {
 
             res.json({myTask})
         } catch(error) {next(error)}
+    }, 
+
+    async getTaskById(req, res, next){
+        
     }
 }

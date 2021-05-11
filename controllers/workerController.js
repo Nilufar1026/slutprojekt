@@ -11,7 +11,7 @@ module.exports={
                 throw new InvalidBody(['taskName','clientId'])
             }
             const UserId=req.user.id
-            const task  = await Task.create({taskName,clientId,UserId})
+            const task  = await Task.create({taskName, clientId, UserId})
             res.json({task}) 
         }catch(error){next(error)}
     },
