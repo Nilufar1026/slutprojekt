@@ -17,7 +17,7 @@ const Tasks = db.define('Tasks', {
 
 })
 
-// User.hasMany ( Tasks )  
+
 Tasks.belongsTo ( User )  
 Tasks.belongsTo(User, { as: 'client', constraints: false })
 
