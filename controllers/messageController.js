@@ -23,22 +23,6 @@ module.exports = {
         } catch (error) { next(error) }
     },
 
-    // async getMessageFromTask(req, res, next) {
-    //     try {
-    //         const taskId = req.params.id
-    //         const msgFromTask = await Msg.findAll({
-    //             attributes: { exclude: ['createdAt', 'updatedAt'] }, where: {
-    //                 TaskId: {
-    //                     [Op.eq]: taskId
-    //                 }
-    //             }
-    //         })
-    //         if (!msgFromTask) { throw new MessageNotFound() }
-    //         res.json({ msgFromTask })
-
-    //     } catch (error) { next(error) }
-    // },
-
     async getMessageFromTask(req, res, next) {
         try {
             const { page, pageSize} = parseQuery(req.query)
