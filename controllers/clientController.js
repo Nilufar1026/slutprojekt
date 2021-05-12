@@ -42,6 +42,7 @@ module.exports = {
     },
 
     async getMessageFromTask(req, res, next) {
+        console.log("AAAAAAA")
         try {
             const taskId = req.params.id
             const msgFromTask = await Msg.findAll({

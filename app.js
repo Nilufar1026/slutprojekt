@@ -16,8 +16,8 @@ app.use(fileUpload());
 
 app.use(generalRoutes)
 app.use(adminRoutes)
-app.use(clientRoutes)
 app.use(workerRoutes)
+app.use(clientRoutes)
 
 app.use(fileUpload())
 app.listen(PORT, () => {
