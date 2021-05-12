@@ -1,5 +1,5 @@
 const express = require('express')
-const Router = express.Router()
+const Routes = express.Router()
 
 const adminController = require('../controllers/adminController')
 const workerController = require('../controllers/workerController')
@@ -9,3 +9,13 @@ const generalControl = require('../controllers/generalController')
 
 
 const Auth = require('../middlewares/auth')
+
+// User endpoints
+
+// Admin endpoints
+
+// Worker endpoints
+
+// Client endpoints
+
+module.exports = Routes
