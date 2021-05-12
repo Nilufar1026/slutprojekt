@@ -43,7 +43,7 @@ module.exports = {
             file.mv(outputPath, (err) => {
                 if (err) return res.status(500).send(err)
                 Task.update(
-                    { imageName: newFileName }, { done: true},
+                    { imageName: newFileName },
                     { where: { id } }
                 );
                 //await newImage.reload();
