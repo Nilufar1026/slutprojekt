@@ -50,7 +50,6 @@ module.exports = {
     async getUserById(req, res, next) {
         try {
             const { id } = req.params
-            console.log(id);
             const user = await User.findOne({
                 attributes: { exclude: ['password', 'createdAt', 'updatedAt'] }, where: {
                     id: {
