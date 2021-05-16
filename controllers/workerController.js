@@ -4,7 +4,8 @@ const Task=require('../models/Tasks')
 const User=require('../models/User')
 const path=require('path')
 const { v4: uuid } = require('uuid');
-const Tasks = require('../models/Tasks');
+const {Op}=require('sequelize')
+
 
 module.exports={
     async create(req,res,next){
@@ -44,25 +45,36 @@ module.exports={
         }catch(error){next(error)}
     },
 
+
+    
     async getTaskByClientName(req, res, next) {
-        const {name} = req.query
+        const name = req.query.name
+        const done=req.query.done
+        
         try {
             const user = await User.findOne({where: {name}})
             if(!user){ throw new UserNotFound() }
             const userId=user.id
-            const tasks=await Task.findAll({
+            if(done){
+                const doneTasks=await Task.findAll({
                     where: {
-                        clientId:userId
-                    }
-              });
-
-            res.json({ tasks })
+                        clientId:userId,
+                        done
+                    }    
+                }); 
+                res.json({ doneTasks })               
+            }else{
+                 const allTasks=await Task.findAll({
+                    where: {
+                        clientId:userId,
+                    }  
+                        
+                });  
+                res.json({ allTasks })  
+            }
         } catch (error) { next(error) }
-    },
+    },   
 
-
-
-    
     async updateTaskById(req,res,next){
         try{
             const {id}=req.params
@@ -79,7 +91,7 @@ module.exports={
             
             
             await Task.update(field,{where:{id}})
-            res.json({message:'Task has pdated'})
+            res.json({message:'Task has updated'})
         }catch(error){next(error)}
 
     },

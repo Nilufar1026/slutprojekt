@@ -5,19 +5,15 @@ const workerController=require('../controllers/workerController')
 const Auth=require('../middlewares/auth')
 
 
-router.post('/tasks',Auth.worker,workerController.create) //Skapar ett nytt ärende
+router.post('/tasks',Auth.worker,workerController.create) 
 
-router.post('/tasks/:id/image',Auth.worker,workerController.addImage) //Laddar upp en bild på ärendet
+router.post('/tasks/:id/image',Auth.worker,workerController.addImage) 
 
-router.patch('/tasks/:id',Auth.worker,workerController.updateTaskById)  //Uppdaterar ett ärende
+router.patch('/tasks/:id',Auth.worker,workerController.updateTaskById)  
 
 router.get('/tasks',Auth.worker,workerController.getTaskByClientName) 
-//Hämtar arbetarens ärenden.
-// Query params:
-// filter all | done
-// search Searches tasks using the clients’ name
 
-router.get('/tasks/:id',Auth.worker,workerController.getTaskById)  //Hämtar ett ärende
+router.get('/tasks/:id',Auth.worker,workerController.getTaskById)  
 
 
 

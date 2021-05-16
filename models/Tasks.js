@@ -12,6 +12,10 @@ const Tasks = db.define('Tasks', {
     imageName: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    done:{
+        type: DataTypes.BOOLEAN,
+        defaultValue:false
     }
 
 
