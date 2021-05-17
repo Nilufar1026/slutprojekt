@@ -2,7 +2,6 @@ const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 require('dotenv').config()
 
-const Task = require('../models/Tasks')
 
 const admin1 = process.env.ADMIN1
 const newAdminPass1 = bcrypt.hashSync(admin1, 10)

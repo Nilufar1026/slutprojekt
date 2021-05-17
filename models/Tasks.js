@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize')
 const db = require('../database/connection')
-const User=require('./User')
-
+const User = require('./User')
 
 const Tasks = db.define('Tasks', {
     taskName: {
@@ -12,6 +11,12 @@ const Tasks = db.define('Tasks', {
     imageName: {
         type: DataTypes.STRING,
         allowNull: true
+    },
+
+    done: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     }
 
 
@@ -23,15 +28,8 @@ const Tasks = db.define('Tasks', {
 //     await newImage.save()
 // }
 
-
-
-
 //Tasks.belongsTo ( User )  
 Tasks.belongsTo(User, { as: 'client', constraints: false })
 Tasks.belongsTo(User, { as: 'worker', constraints: false })
-
-
-
-
 
 module.exports = Tasks
