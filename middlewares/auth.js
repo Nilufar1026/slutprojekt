@@ -17,6 +17,7 @@ module.exports = {
     next()
   },
 
+  
   admin: (req, res, next) => {
     const token = extractToken(req.headers)
     const user = User.validateToken(token)

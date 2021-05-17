@@ -18,17 +18,8 @@ const Tasks = db.define('Tasks', {
         allowNull: false,
         defaultValue: false
     }
-
-
 })
-
-// Task.updateImage = async (imageName) => {
-//     const newImage = await Task.findOne({ where: { id } })
-//     newImage.imageName = `/upload_images/${file.name}`
-//     await newImage.save()
-// }
-
-//Tasks.belongsTo ( User )  
+ 
 Tasks.belongsTo(User, { as: 'client', constraints: false })
 Tasks.belongsTo(User, { as: 'worker', constraints: false })
 
