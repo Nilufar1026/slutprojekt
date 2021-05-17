@@ -1,112 +1,129 @@
-const {InvalidBody,TaskNotFound,UserNotFound}=require('../errors/index')
+const { InvalidBody, TaskNotFound, UserNotFound } = require('../errors/index')
 
-const Task=require('../models/Tasks')
-const User=require('../models/User')
-const path=require('path')
+const Task = require('../models/Tasks')
+const User = require('../models/User')
+const path = require('path')
 const { v4: uuid } = require('uuid');
-const {Op}=require('sequelize')
+const { Op } = require('sequelize')
 
 
-module.exports={
-    async create(req,res,next){
-        try{
-            const {taskName,clientId} = req.body
-            if( !taskName || !clientId ){
-                throw new InvalidBody(['taskName','clientId'])
+module.exports = {
+    async create(req, res, next) {
+        try {
+            const { taskName, clientId } = req.body
+            if (!taskName || !clientId) {
+                throw new InvalidBody(['taskName', 'clientId'])
             }
-            const workerId=req.user.id
-            const task  = await Task.create({taskName,clientId,workerId})
-            res.json({task}) 
-        }catch(error){next(error)}
+            const workerId = req.user.id
+            const task = await Task.create({ taskName, clientId, workerId })
+            res.json({ task })
+        } catch (error) { next(error) }
     },
 
-    async addImage(req,res,next){
-        try{
-            const {id}=req.params
-            const file=req.files.pictures
-            if( !file ){
+    async addImage(req, res, next) {
+        try {
+            const { id } = req.params
+            const file = req.files.pictures
+            if (!file) {
                 throw new InvalidBody(['file'])
             }
 
-            const findTask = await Task.findOne({where:{id}})
-            if(!findTask){ throw new TaskNotFound(id) }
-            const extension=path.extname(file.name)
-            const newFileName=uuid()+extension
-            const outputPath=path.join("upload_images",newFileName)
+            const findTask = await Task.findOne({ where: { id } })
+            if (!findTask) { throw new TaskNotFound(id) }
+            const extension = path.extname(file.name)
+            const newFileName = uuid() + extension
+            const outputPath = path.join("upload_images", newFileName)
 
-            file.mv(outputPath,  (err) => {
+            file.mv(outputPath, (err) => {
                 if (err) return res.status(500).send(err)
                 Task.update(
-                    {imageName:newFileName},
-                    {where:{id}}
+                    { imageName: newFileName },
+                    { where: { id } }
                 );
-            res.json({message:'image has added!'}) 
+                res.json({ message: 'image has added!' })
             })
-        }catch(error){next(error)}
+        } catch (error) { next(error) }
     },
 
 
-    
+
     async getTaskByClientName(req, res, next) {
         const name = req.query.name
-        const done=req.query.done
-        
+        const done = req.query.done
+
         try {
-            const user = await User.findOne({where: {name}})
-            if(!user){ throw new UserNotFound() }
-            const userId=user.id
-            if(done){
-                const doneTasks=await Task.findAll({
+            const user = await User.findOne({ where: { name } })
+            if (!user) { throw new UserNotFound() }
+            const userId = user.id
+            if (done) {
+                const doneTasks = await Task.findAll({
                     where: {
-                        clientId:userId,
+                        clientId: userId,
                         done
-                    }    
-                }); 
-                res.json({ doneTasks })               
-            }else{
-                 const allTasks=await Task.findAll({
+                    }
+                });
+                res.json({ doneTasks })
+            } else {
+                const allTasks = await Task.findAll({
                     where: {
-                        clientId:userId,
-                    }  
-                        
-                });  
-                res.json({ allTasks })  
+                        clientId: userId,
+                    }
+
+                });
+                res.json({ allTasks })
             }
         } catch (error) { next(error) }
-    },   
+    },
 
-    async updateTaskById(req,res,next){
-        try{
-            const {id}=req.params
-            const {taskName,clientId} = req.body
-            const {done}=req.query
-            const field={}
+    async updateTaskById(req, res, next) {
+        try {
+            const { id } = req.params
+            const { taskName, clientId } = req.body
+            const { done } = req.query
+            const field = {}
 
-            if(taskName) field.taskName=taskName
-            if(clientId) field.clientId=clientId
-            if(done) field.done=done
+            if (taskName) field.taskName = taskName
+            if (clientId) field.clientId = clientId
+            if (done) field.done = done
 
-            const findTask = await Task.findOne({where:{id}})
-            if(!findTask){ throw new TaskNotFound(id) }
-            
-            
-            await Task.update(field,{where:{id}})
-            res.json({message:'Task has updated'})
-        }catch(error){next(error)}
+            const findTask = await Task.findOne({ where: { id } })
+            if (!findTask) { throw new TaskNotFound(id) }
+
+
+            await Task.update(field, { where: { id } })
+            res.json({ message: 'Task has updated' })
+        } catch (error) { next(error) }
 
     },
 
-    async getTaskById(req,res,next){
+    async getTaskById(req, res, next) {
         try {
             const { id } = req.params
             const task = await Task.findOne({
-                where: {id}
+                where: { id }
             })
             if (!task) { throw new TaskNotFound() }
             res.json({ task })
         } catch (error) { next(error) }
     },
-    
+
+    async deleteTaskById(req, res, next) {
+        try {
+            const { id } = req.params
+            const task = await Task.findOne({ where: { id } })
+            if (!task) { throw new TaskNotFound(id) }
+            await task.destroy()
+            res.json({ message: ` task id:${task.id} has deleted!` })
+        } catch (error) { next(error) }
+    },
+
+    async getTask(req, res, next) {
+        const clientId = res.user.id
+        try {
+            const myTask = await Task.findAll({ attributes: { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, where: { clientId: clientId } })
+            res.json({ myTask })
+        } catch (error) { next(error) }
+    },
 
 
 }
