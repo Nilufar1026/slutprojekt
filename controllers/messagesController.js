@@ -18,7 +18,8 @@ module.exports = {
             if (!content) {
                 throw new InvalidBody(['content'])
             }
-            const message = await Msg.create({ content: content, TaskId: taskId })
+            const UserId = req.user.id
+            const message = await Msg.create({ content: content, TaskId: taskId, UserId: UserId })
             res.json({ message })
         } catch (error) { next(error) }
     },

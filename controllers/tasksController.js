@@ -120,7 +120,9 @@ module.exports = {
     async getTask(req, res, next) {
         const clientId = res.user.id
         try {
-            const myTask = await Task.findAll({ attributes: { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, where: { clientId: clientId } })
+            const myTask = await Task.findAll({ attributes: 
+                { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, 
+                where: { clientId: clientId } })
             res.json({ myTask })
         } catch (error) { next(error) }
     },
