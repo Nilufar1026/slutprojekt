@@ -10,6 +10,7 @@ module.exports = {
                 throw new InvalidBody(['email','name','password','role'])
             }
             const user  = await User.create({email,name,password,role})
+            
             res.json({message:`You have registered ${user.role}!`})            
         }catch(error){next(error)}    
     },

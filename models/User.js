@@ -27,6 +27,10 @@ const User = db.define('Users', {
     }
 })
 
+// User.beforeCreate((user, options) => {
+//     user.password = bcryptjs.hashSync(user.password, 10)
+// })
+
 User.authenticate = async (email, password) => {
     const user = await User.findOne({ where: { email } })
     if (!user) { throw new InvalidCredentials() }
@@ -66,5 +70,7 @@ User.updateProfile = async (email, newEmail, newName, newPassword) => {
         await newProfile.save()
     }
 }
+
+
 
 module.exports = User
