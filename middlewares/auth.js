@@ -28,7 +28,6 @@ module.exports = {
     next()
   },
 
-
   worker: (req, res, next) => {
     const token = extractToken(req.headers)
     const user = User.validateToken(token)
@@ -36,7 +35,6 @@ module.exports = {
     req.user = user
     next()
   },
-
 
   workerAndClient: (req, res, next) => {
     const token = extractToken(req.headers)
