@@ -13,12 +13,13 @@ function parseQuery(query){
 module.exports = {
     async createMessage(req, res, next) {
         try {
+            const user=res.user
             const taskId = req.params.id
             const { content } = req.body
             if (!content) {
                 throw new InvalidBody(['content'])
             }
-            const UserId = req.user.id
+            const UserId = user.id
             const message = await Msg.create({ content: content, TaskId: taskId, UserId: UserId })
             res.json({ message })
         } catch (error) { next(error) }

@@ -4,21 +4,23 @@ const Task = require('../models/Tasks')
 const User = require('../models/User')
 const path = require('path')
 const { v4: uuid } = require('uuid');
-const { Op } = require('sequelize')
+
 
 
 module.exports = {
     async create(req, res, next) {
         try {
+            const user=res.user
             const { taskName, clientId } = req.body
             if (!taskName || !clientId) {
                 throw new InvalidBody(['taskName', 'clientId'])
             }
-            const workerId = req.user.id
+            const workerId = user.id
             const task = await Task.create({ taskName, clientId, workerId })
             res.json({ task })
         } catch (error) { next(error) }
     },
+
 
     async addImage(req, res, next) {
         try {
