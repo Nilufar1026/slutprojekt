@@ -1,17 +1,18 @@
 const User = require('../models/User')
 const { InvalidBody, Unauthorized, UserNotFound } = require('../errors/index')
 const { Op } = require('sequelize')
+const bcryptjs=require('bcryptjs')
 
 module.exports = {
     async create(req,res,next){
         try{
-            const {email,name,password,role}=req.body
+            let {email,name,password,role}=req.body
             if( !email || !name || !password || !role){
                 throw new InvalidBody(['email','name','password','role'])
             }
-            const user  = await User.create({email,name,password,role})
-            
-            res.json({message:`You have registered ${user.role}!`})            
+             password = bcryptjs.hashSync(password, 10)
+             const newUser  = await User.create({email,name,password,role})
+            res.json({message:`You have registered ${newUser.role}!`})            
         }catch(error){next(error)}    
     },
 
