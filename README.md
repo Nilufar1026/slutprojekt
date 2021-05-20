@@ -25,7 +25,7 @@ Remember to change the "supersecretpassword" to your own password.
 ```
 #### 2. Create an "upload_images" folder for save images.
 
-#### 3. setup database and seed file.
+#### 3. Setup database and seed file.
 
 ```
 node database/setup.js && node database/seed.js
