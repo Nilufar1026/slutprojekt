@@ -3,13 +3,13 @@
 ## Installation
 
 ```
-# Install all dependencies for the project
 npm install
+
 ```
 
 ## Setup / Configuration
 
-Create an .env file with the following content
+#### 1. Create an .env file with the following content
 
 ```
 PORT=3000
@@ -21,17 +21,20 @@ WORKER2=supersecretpassword
 CLIENT1=supersecretpassword
 CLIENT2=supersecretpassword
 
+Remember to change the "supersecretpassword" to your own password.
 ```
+#### 2. Create an "upload_images" folder for saving images.
 
-Remember to change the supersecretpassword to your own password.
+#### 3. setup database and seed file.
 
 ```
-#Create a database and add users to Users table
 node database/setup.js && node database/seed.js
+
 ```
 
 ## Run server
 
 ```
 npm start 
+
 ```
