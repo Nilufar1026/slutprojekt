@@ -23,7 +23,7 @@ CLIENT2=supersecretpassword
 
 Remember to change the "supersecretpassword" to your own password.
 ```
-#### 2. Create an "upload_images" folder for saving images.
+#### 2. Create an "upload_images" folder for save images.
 
 #### 3. setup database and seed file.
 
