@@ -9,6 +9,7 @@ const { v4: uuid } = require('uuid');
 
 module.exports = {
     async create(req, res, next) {
+        console.log("hej jag är new task i backend")
         try {
             const user=res.user
             const { taskName, clientId } = req.body
@@ -78,15 +79,16 @@ module.exports = {
     },
 
     async updateTaskById(req, res, next) {
+       console.log(req.body);
         try {
             const { id } = req.params
-            const { taskName, clientId } = req.body
-            const { done } = req.query
+            const { taskName, clientId, taskStatus } = req.body
+            // const { done } = req.query
             const field = {}
 
             if (taskName) field.taskName = taskName
             if (clientId) field.clientId = clientId
-            if (done) field.done = done
+            if (taskStatus) field.done = taskStatus
 
             const findTask = await Task.findOne({ where: { id } })
             if (!findTask) { throw new TaskNotFound(id) }
@@ -110,8 +112,10 @@ module.exports = {
     },
 
     async deleteTaskById(req, res, next) {
+        console.log("soy delete desda backend")
         try {
             const { id } = req.params
+            console.log(req.params);
             const task = await Task.findOne({ where: { id } })
             if (!task) { throw new TaskNotFound(id) }
             await task.destroy()
@@ -126,6 +130,16 @@ module.exports = {
                 { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, 
                 where: { clientId: clientId } })
             res.json({ myTask })
+        } catch (error) { next(error) }
+    },
+
+    async getTaskWorker(req, res, next) {
+        const workerId = res.user.id
+        try {
+            const workerTask = await Task.findAll({ attributes: 
+                { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, 
+                where: { workerId: workerId } })
+            res.json({ workerTask })
         } catch (error) { next(error) }
     },
 

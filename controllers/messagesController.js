@@ -1,5 +1,6 @@
 const Msg = require('../models/Messages')
-const { MessageNotFound } = require('../errors/index')
+const Task = require('../models/Tasks')
+const { MessageNotFound, Unauthorized } = require('../errors/index')
 const { Op } = require('sequelize')
 
 function parseQuery(query){
@@ -20,8 +21,18 @@ module.exports = {
                 throw new InvalidBody(['content'])
             }
             const UserId = user.id
-            const message = await Msg.create({ content: content, TaskId: taskId, UserId: UserId })
-            res.json({ message })
+            const task = await Task.findOne({where: { id: taskId}})
+            
+            if(UserId === task.workerId){
+                const messageFromWorker = await Msg.create({ content: content, TaskId: taskId, UserId: UserId })
+                res.json({ messageFromWorker })
+            }
+
+            if(UserId !== task.clientId ) {
+                throw new Unauthorized()
+            }
+            const messageFromClient = await Msg.create({ content: content, TaskId: taskId, UserId: UserId })
+                res.json({ messageFromClient })
         } catch (error) { next(error) }
     },
 

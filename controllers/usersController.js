@@ -45,6 +45,7 @@ module.exports = {
     },
 
     async login(req, res, next) {
+        console.log("hej jag är backend");
         try {
             const { email, password } = req.body
             if (!email || !password) { throw new InvalidBody() }

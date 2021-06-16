@@ -20,13 +20,14 @@ Routes.get('/users/:id', Auth.user, usersController.getUserById)
 Routes.post('/users', Auth.user, Auth.allowRoles('admin'), usersController.create)
 Routes.patch('/users/:id', Auth.user, Auth.allowRoles('admin'), usersController.updateUserById)  
 Routes.delete('/users/:id', Auth.user, Auth.allowRoles('admin'), usersController.deleteUserById)  
-Routes.delete('/tasks/:id', Auth.user, Auth.allowRoles('admin'), tasksController.deleteTaskById) 
+Routes.delete('/tasks/:id', Auth.user, Auth.allowRoles('worker'), tasksController.deleteTaskById) 
 
 // Worker endpoints
 
 Routes.post('/tasks',  Auth.user, Auth.allowRoles('worker'), tasksController.create) 
 Routes.post('/tasks/:id/image', Auth.user, Auth.allowRoles('worker'), tasksController.addImage) 
 Routes.get('/tasks', Auth.user, Auth.allowRoles('worker'), tasksController.getTaskByClientName)
+Routes.get('/tasks/worker', Auth.user, Auth.allowRoles('worker'), tasksController.getTaskWorker)
 Routes.patch('/tasks/:id', Auth.user, Auth.allowRoles('worker'), tasksController.updateTaskById)  
 
 
