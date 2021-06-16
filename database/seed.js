@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const Task=require('../models/Tasks')
+const Message=require('../models/Messages')
 const bcrypt = require('bcryptjs')
 require('dotenv').config()
 
@@ -30,6 +32,16 @@ User.create({email:'worker2@email.com', name: 'worker 2', password:newWorkerPass
 User.create({email:'client1@email.com', name: 'client 1', password:newClientPass1, role: 'client'})
 User.create({email:'client2@email.com', name: 'client 2', password:newClientPass2, role: 'client'})
 
+Task.create({taskName:'Design byggna', clientId: 5, workerId:2})
+Task.create({taskName:'Set up', clientId: 5, workerId:2})
+Task.create({taskName:'Beställa material', clientId: 5, workerId:2})
+Task.create({taskName:'Teknisk', clientId: 5, workerId:2})
+Task.create({taskName:'Elektricitet', clientId: 5, workerId:2})
+Task.create({taskName:'Beslut', clientId: 5, workerId:2})
 
-
-
+Message.create({content:'Generella design', TaskId: 1, UserId:5})
+Message.create({content:'Design gata', TaskId: 1, UserId:5})
+Message.create({content:'Design tak', TaskId: 1, UserId:5})
+Message.create({content:'Design fönster', TaskId: 1, UserId:5})
+Message.create({content:'Design Dörren', TaskId: 1, UserId:5})
+Message.create({content:'Design köket', TaskId: 1, UserId:5})
