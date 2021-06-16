@@ -80,13 +80,13 @@ module.exports = {
     async updateTaskById(req, res, next) {
         try {
             const { id } = req.params
-            const { taskName, clientId } = req.body
-            const { done } = req.query
+            const { taskName, clientId, taskStatus } = req.body
+            //const { done } = req.query
             const field = {}
 
             if (taskName) field.taskName = taskName
             if (clientId) field.clientId = clientId
-            if (done) field.done = done
+            if (taskStatus) field.done = taskStatus
 
             const findTask = await Task.findOne({ where: { id } })
             if (!findTask) { throw new TaskNotFound(id) }
@@ -126,6 +126,15 @@ module.exports = {
                 { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, 
                 where: { clientId: clientId } })
             res.json({ myTask })
+        } catch (error) { next(error) }
+    },
+    async getTaskWorker(req, res, next) {
+        const workerId = res.user.id
+        try {
+            const workerTask = await Task.findAll({ attributes: 
+                { exclude: ['taskId', 'clientId', 'workerId', 'createdAt', 'updatedAt'] }, 
+                where: { workerId: workerId } })
+            res.json({ workerTask })
         } catch (error) { next(error) }
     },
 
